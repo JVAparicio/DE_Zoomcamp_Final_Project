@@ -14,12 +14,12 @@ load_dotenv(dotenv_path=env_path) #for python-dotenv method
 #file_format = ".csv"
 
 
+
 def fetch(dataset_url: str) -> pd.DataFrame:
     """Read bgg data from web into pandas Dataframe"""
 
     print(dataset_url)
     df = pd.read_csv(dataset_url, header=0 ,delimiter=(','), names=["ID", "Name", "Year", "Rank", "Average", "Bayes average", "Users rated", "URL", "Thumbnail"], nrows=100)
-    #print(df.head())
     return df
 
 
@@ -61,22 +61,21 @@ if __name__ == '__main__':
     items = project.repository_tree(get_all=True)
     file_dict = {file['name'] for file in items}
 
+    # Define the years and months to download the files for
+    start_year = 2018
+    #Current year
+    end_year = int(pd.Timestamp.now().strftime("%Y"))
+    months = list(range(1,13))
 
-    year = '2018'
-    files_to_download = [file for file in file_dict if file.startswith(year)]
+    for year in range(start_year, end_year+1):
+        for month in range(1,13):
+            file_date = str(year) +'-'+ str(month)
 
-    
-    for file in files_to_download:
-        etl_web_to_gcs(file)
+        files_to_download = [file for file in file_dict if file.startswith(file_date)]
 
-    #months = [1,2,3,4,5,6,7,8,9,10,11,12]
-
-    #for month in months:
-    #    etl_web_to_gcs(year, month)
-
-
-
-    #etl_web_to_gcs(2017, 2)
+        print(files_to_download)
+    #for file in files_to_download:
+    #    etl_web_to_gcs(file)
 
 
 # Define the years to download the files for

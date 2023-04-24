@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pandas = "*"
+requests = "*"
+pyarrow = "*"
+beautifulsoup4 = "*"
+python-gitlab = "*"
+python-dotenv = "*"
+prefect = "*"
+prefect-gcp = {extras = ["bigquery"], version = "*"}
+pandas-gbq = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
+python_full_version = "3.10.6"

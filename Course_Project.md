@@ -66,16 +66,16 @@ Example of a dashboard: ![image](https://user-images.githubusercontent.com/43158
 * Problem description
     * 0 points: Problem is not described
     * 1 point: Problem is described but shortly or not clearly 
-    * 2 points: Problem is well described and it's clear what the problem the project solves
+    * 2 points: Problem is well described and it's clear what the problem the project solves (DONE)
 * Cloud
     * 0 points: Cloud is not used, things run only locally
-    * 2 points: The project is developed in the cloud
+    * 2 points: The project is developed in the cloud (DONE)
     * 4 points: The project is developed in the cloud and IaC tools are used
 * Data ingestion (choose either batch or stream)
     * Batch / Workflow orchestration
         * 0 points: No workflow orchestration
         * 2 points: Partial workflow orchestration: some steps are orchestrated, some run manually
-        * 4 points: End-to-end pipeline: multiple steps in the DAG, uploading data to data lake
+        * 4 points: End-to-end pipeline: multiple steps in the DAG, uploading data to data lake (DONE)
     * Stream
         * 0 points: No streaming system (like Kafka, Pulsar, etc)
         * 2 points: A simple pipeline with one consumer and one producer
@@ -83,7 +83,7 @@ Example of a dashboard: ![image](https://user-images.githubusercontent.com/43158
 * Data warehouse
     * 0 points: No DWH is used
     * 2 points: Tables are created in DWH, but not optimized
-    * 4 points: Tables are partitioned and clustered in a way that makes sense for the upstream queries (with explanation)
+    * 4 points: Tables are partitioned and clustered in a way that makes sense for the upstream queries (with explanation) 
 * Transformations (dbt, spark, etc)
     * 0 points: No tranformations
     * 2 points: Simple SQL transformation (no dbt or similar tools)

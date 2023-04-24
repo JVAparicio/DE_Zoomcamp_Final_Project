@@ -102,8 +102,8 @@ if __name__ == '__main__':
     file_dict = get_filenames()
     
     # Define the years and months to download the files for
-    start_year = 2018
-    end_year = 2018
+    start_year = 2019
+    end_year = 2022
 
     #Current year
     #end_year = int(pd.Timestamp.now().strftime("%Y"))

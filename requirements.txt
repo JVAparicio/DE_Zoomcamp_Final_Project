@@ -4,11 +4,14 @@
     pipenv install pandas
     pipenv install requests
     pipenv install pyarrow
-    pipenv install BeautifulSoup4
+    pipenv install pandas-gbq
+    #pipenv install BeautifulSoup4
     pipenv install python-gitlab
-    #pipenv install prefect
+    pipenv install python-dotenv
+    pipenv install prefect
     #pipenv install prefect-sqlalchemy
-    #pipenv install prefect-gcp[cloud_storage]
+    pipenv install prefect-gcp[cloud_storage]
+    pipenv install prefect_gcp[bigquery]
     #pipenv install protobuf
     #pipenv install pyarrow
     #pipenv install pandas-gbq

@@ -5,7 +5,7 @@ models:
     - name: my_first_dbt_model
       description: "A starter dbt model"
       columns:
-          - name: id
+          - name: ID
             description: "The primary key for this table"
             tests:
                 - unique
@@ -14,8 +14,16 @@ models:
     - name: my_second_dbt_model
       description: "A starter dbt model"
       columns:
-          - name: id
+          - name: ID
             description: "The primary key for this table"
             tests:
                 - unique
                 - not_null
+
+sources:
+  - name: staging
+    description: desc
+    database: dtc-de-course-375312
+    schema: ds_zoomcamp
+    tables:
+      - name: test

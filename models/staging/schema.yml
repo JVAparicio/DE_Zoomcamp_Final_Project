@@ -2,7 +2,7 @@
 version: 2
 
 models:
-    - name: my_first_dbt_model
+    - name: stg_top_100_2017
       description: "A starter dbt model"
       columns:
           - name: ID
@@ -26,4 +26,9 @@ sources:
     database: dtc-de-course-375312
     schema: ds_zoomcamp
     tables:
-      - name: test
+      - name: top100_2017
+      - name: top100_2018
+      - name: top100_2019
+      - name: top100_2020
+      - name: top100_2021
+      - name: top100_2022

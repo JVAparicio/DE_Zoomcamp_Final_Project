@@ -9,8 +9,6 @@ with top100_2017 as
     cast(Rank as integer) as rank,
     cast(Average as numeric) as average,
     cast(date as timestamp) as rank_date,
-
-
   from {{ source('staging','top100_2017') }}
 )
 

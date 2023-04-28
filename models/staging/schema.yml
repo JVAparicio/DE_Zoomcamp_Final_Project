@@ -2,23 +2,9 @@
 version: 2
 
 models:
-    - name: stg_top_100_2017
+    - name: top_100_games
       description: "A starter dbt model"
-      columns:
-          - name: ID
-            description: "The primary key for this table"
-            tests:
-                - unique
-                - not_null
 
-    - name: my_second_dbt_model
-      description: "A starter dbt model"
-      columns:
-          - name: ID
-            description: "The primary key for this table"
-            tests:
-                - unique
-                - not_null
 
 sources:
   - name: staging

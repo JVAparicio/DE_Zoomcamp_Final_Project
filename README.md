@@ -3,13 +3,13 @@
 * Which games spent the most time in the top 10 rankings?
 * Which year had the better average for games that reached the top 100?
 
-The analysis is based on the daily rankings of board games collected from the BoardGameGeek website and stored in CSV files in this GitLab repository.
+The analysis is based on the daily rankings of board games collected from the BoardGameGeek website and stored in CSV files on the GitLab repository.
+[GitLab Repo](https://gitlab.com/recommend.games/bgg-ranking-historicals/)
 
-[Repo](https://gitlab.com/recommend.games/bgg-ranking-historicals/)
+The data used in the project are the daily rankings from 2017 until 2022.
 
 ## Architecture of the project
 ![Architecture](ZoomcampDiagram.png)
-
 
 
 ## Technology stack
@@ -39,8 +39,7 @@ To be able to access the data you need to create an account on https://gitlab.co
 * **URL**: URL for the game in the website
 
 
-
-## To reproduce the analysis, follow these steps:
+## To reproduce the project, follow these steps:
 
 1. Clone this repository to your local machine.
 2. Install the required Python libraries listed in requirements.txt.

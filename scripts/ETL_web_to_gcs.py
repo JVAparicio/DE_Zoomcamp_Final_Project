@@ -65,9 +65,7 @@ def write_gcs(local_path: Path, gcs_path: Path) -> None:
 @flow()
 def etl_web_to_gcs(files: list, file_date: str, year: str) -> None:
     """The main ETL function"""
-
     
-
     df_final = pd.DataFrame()
 
     print(file_date)
@@ -77,11 +75,12 @@ def etl_web_to_gcs(files: list, file_date: str, year: str) -> None:
 
         dataset_url = f"https://gitlab.com/recommend.games/bgg-ranking-historicals/-/raw/master/{file}"
         df = fetch(dataset_url)
-        df['date'] = file_date
+        df['date'] = file[0:10]
         df_final = pd.concat([df_final, df], ignore_index=True)
- 
-    df_clean = clean(df)
 
+        print("Current shape of df_final",df_final.shape)
+ 
+    df_clean = clean(df_final)
     dataset_file = file_date
     local_path = write_local(df_clean, year, dataset_file)
     gcs_path = Path(f"data/{year}/{dataset_file}.parquet")
@@ -91,18 +90,15 @@ def etl_web_to_gcs(files: list, file_date: str, year: str) -> None:
 
 
 if __name__ == '__main__':
-
     # Define the directory to store the downloaded files
-    download_dir = "./../data/"
-
+    local_download_dir = "./../data/"
     # Make sure the download directory exists
-    if not os.path.exists(download_dir):
-        os.makedirs(download_dir)
-    
+    if not os.path.exists(local_download_dir):
+        os.makedirs(local_download_dir)
     file_dict = get_filenames()
     
     # Define the years and months to download the files for
-    start_year = 2019
+    start_year = 2017
     end_year = 2022
 
     #Current year

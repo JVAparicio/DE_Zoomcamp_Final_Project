@@ -1,48 +1,57 @@
-from prefect import flow
-from prefect_gcp import GcpCredentials
-from prefect_gcp.bigquery import bigquery_query
+from pathlib import Path
+import pandas as pd
+from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
-
-# CREATE OR REPLACE EXTERNAL TABLE `{project_id}.{bq_dataset_name}.{bq_table_name}`
-
-@flow
-def populate_bq(gcp_credentials, bucket_name, bq_dataset_name, bq_table_name, year):
-    
-    query = f'''
-        CREATE OR REPLACE EXTERNAL TABLE `dtc-de-course-375312.ds_zoomcamp.test`
-        OPTIONS (
-        format = 'PARQUET',
-        uris = ['gs://{bucket_name}/data/{year}/{year}-*.parquet']
-        );
-        '''
-    
-    print(query)
-
-    result = bigquery_query(
-        query, gcp_credentials, 
-    )
-    return result
+from prefect_gcp import GcpCredentials
 
 
-if __name__ == "__main__":
+
+@task(retries=3)
+def extract_from_gcs(year: int, month: int) -> Path:
+    """Download trip from GCS"""
+    gcs_path=f"data/{year}/{year}-{month:02}.parquet"
+    gcs_block = GcsBucket.load("zoom-gcs")
+    gcs_block.get_directory(from_path=gcs_path, local_path=f".")
+    return Path(f"{gcs_path}")
+
+@task
+def transform(path: Path) -> pd.DataFrame:
+    """Data cleaning example"""
+    df = pd.read_parquet(path)
+    #print(f"pre:missing passenger count: {df['passenger_count'].isna().sum()}")
+    #df["passenger_count"] = df["passenger_count"].fillna(0)
+    #print(f"pos:missing passenger count: {df['passenger_count'].isna().sum()}")
+
+    return df
+
+
+@task
+def write_bq(df: pd.DataFrame, table_name: str) -> None:
+    """Writer DataFrame to Big Query"""
 
     gcp_credentials_block = GcpCredentials.load("zoom-gcp-credentials")
-    #gcs_bucket = GcsBucket.load("zoom-gcs")
-    bq_dataset_name = 'ds_zoomcamp'
-    bq_table_name = "bbg_top_100"
 
-    #print(gcs_bucket)
+    df.to_gbq(
+        destination_table=table_name,
+        project_id=gcp_credentials_block.project,
+        credentials= gcp_credentials_block.get_credentials_from_service_account(),
+        chunksize=500000,
+        if_exists="append"
+    )
 
-    bucket_name = "prefect-de-course-zoomcamp"
-    project_id = "dtc-de-course-375312"
-    year = 2018
-
-    #credentials= gcp_credentials_block.get_credentials_from_service_account(),
-
-    #gs://prefect-de-course-zoomcamp/data/2018/2018-01.parquet
-
-    #print(gcp_credentials_block)
-
+@flow(log_prints=True)
+def etl_gcs_to_bq(year: int, month: int):
+    """Main ETL flow to load data into Big Query"""
+    
+    path = extract_from_gcs(year, month)
+    df = transform(path)
+    table_name = f"ds_zoomcamp.top100_{year}"
+    write_bq(df, table_name)
 
 
-    populate_bq(gcp_credentials_block, bucket_name, bq_dataset_name, bq_table_name, year)
+if __name__ == '__main__':
+    year = 2022    
+    months = [1,2,3,4,5,6,7,8,9,10,11,12]
+    for month in months:
+        etl_gcs_to_bq(year, month)
+    

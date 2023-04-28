@@ -15,6 +15,7 @@ prefect-gcp = {extras = ["bigquery"], version = "*"}
 pandas-gbq = "*"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.10"

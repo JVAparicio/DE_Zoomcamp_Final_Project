@@ -1,4 +1,11 @@
-{{ config(materialized='view') }}
+{{ config(
+    materialized='table',
+    partition_by={
+      "field": "rank_date",
+      "data_type": "timestamp",
+      "granularity": "year"
+    }
+)}}
 
 
 select *

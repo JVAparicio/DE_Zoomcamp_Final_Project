@@ -1,0 +1,20 @@
+
+version: 2
+
+models:
+    - name: top_100_games
+      description: "A starter dbt model"
+
+
+sources:
+  - name: staging
+    description: desc
+    database: dtc-de-course-375312
+    schema: ds_zoomcamp
+    tables:
+      - name: top100_2017
+      - name: top100_2018
+      - name: top100_2019
+      - name: top100_2020
+      - name: top100_2021
+      - name: top100_2022

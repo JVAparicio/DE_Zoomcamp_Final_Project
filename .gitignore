@@ -1,5 +1,6 @@
 #Local
 data/
+not_push/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
